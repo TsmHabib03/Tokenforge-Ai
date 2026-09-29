@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="orb" cx="32%" cy="72%" r="82%">
+      <stop offset="0%" stop-color="#ffd25c"/>
+      <stop offset="22%" stop-color="#ff8a2f"/>
+      <stop offset="46%" stop-color="#ff3d5e"/>
+      <stop offset="72%" stop-color="#a03cf5"/>
+      <stop offset="100%" stop-color="#2f5cff"/>
+    </radialGradient>
+    <linearGradient id="sheen" x1="16%" y1="8%" x2="78%" y2="92%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.65"/>
+      <stop offset="55%" stop-color="#ffffff" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="tile" cx="30%" cy="25%" r="95%">
+      <stop offset="0%" stop-color="#151519"/>
+      <stop offset="100%" stop-color="#050506"/>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#tile)"/>
+  <circle cx="32" cy="32" r="18.5" fill="url(#orb)"/>
+  <path d="M32 13.5a18.5 18.5 0 0 0-16.1 27.9" fill="none" stroke="url(#sheen)" stroke-width="3.2" stroke-linecap="round"/>
+  <ellipse cx="24.5" cy="23.5" rx="7.5" ry="5" fill="#ffffff" opacity="0.3" transform="rotate(-32 24.5 23.5)"/>
+  <path d="M32 50.5A18.5 18.5 0 0 0 50.5 32" fill="none" stroke="#050506" stroke-opacity="0.35" stroke-width="3" stroke-linecap="round"/>
+</svg>

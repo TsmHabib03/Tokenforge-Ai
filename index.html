@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Developer reference — TokenForge</title>
+    <meta
+      name="description"
+      content="TokenForge developer reference: setup plan, authentication, POST /v1/messages, Claude Code compatibility, supported models, credit rates, request admission, and errors."
+    />
+    <meta name="theme-color" content="#050506" />
+    <link rel="icon" href="favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body class="min-h-screen bg-ink-950 font-sans text-neutral-200 antialiased">
+    <div class="flex min-h-screen bg-ink-950">
+      <!-- ================= Sidebar ================= -->
+      <aside
+        class="sticky top-0 hidden h-screen w-[264px] shrink-0 flex-col border-r border-white/[0.06] bg-ink-900 lg:flex"
+      >
+        <div class="border-b border-white/[0.06] px-5 py-5">
+          <a
+            href="https://tokenforge.ai.studio/sign-up?aff=qvmv"
+            class="group block rounded-lg px-1 py-1 transition"
+            aria-label="TokenForge sign up"
+          >
+            <span class="flex items-center gap-2.5">
+              <span class="logo-tile h-9 w-9"><span class="logo-orb"></span></span>
+              <span class="leading-none">
+                <span class="block text-[15px] font-bold tracking-tight text-white"
+                  >Token<span class="text-neon">Forge</span></span
+                >
+                <span
+                  class="mt-1 block font-mono text-[9.5px] font-semibold uppercase tracking-[0.26em] text-neon/80"
+                  >Developer Gateway</span
+                >
+              </span>
+            </span>
+          </a>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto px-3 py-4">
+          <div class="px-3 pb-4">
+            <p class="text-[13.5px] font-bold tracking-tight text-white">Documentation</p>
+            <p class="mt-1 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-neon/70">
+              Developer reference
+            </p>
+          </div>
+          <ul class="space-y-0.5">
+            <li>
+              <a
+                href="https://tokenforge.ai.studio/sign-up?aff=qvmv"
+                class="group flex items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-[13.5px] font-medium text-neutral-400 transition hover:bg-white/[0.05] hover:text-white"
+              >
+                Setup plan
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://tokenforge.ai.studio/sign-up?aff=qvmv"
+                class="group flex items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-[13.5px] font-medium text-neutral-400 transition hover:bg-white/[0.05] hover:text-white"
+              >
+                Overview
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://tokenforge.ai.studio/sign-up?aff=qvmv"
+                class="group flex items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-[13.5px] font-medium text-neutral-400 transition hover:bg-white/[0.05] hover:text-white"
+              >
+                Authentication
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://tokenforge.ai.studio/sign-up?aff=qvmv"
+                class="group flex items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-[13.5px] font-medium text-neutral-400 transition hover:bg-white/[0.05] hover:text-white"
+              >
+                Messages API
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://tokenforge.ai.studio/sign-up?aff=qvmv"
+                class="group flex items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-[13.5px] font-medium text-neutral-400 transition hover:bg-white/[0.05] hover:text-white"
+              >
+                Claude Code compatibility
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://tokenforge.ai.studio/sign-up?aff=qvmv"
+                class="group flex items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-[13.5px] font-medium text-neutral-400 transition hover:bg-white/[0.05] hover:text-white"
+              >
+                Messages-supported models
+                <span class="rounded border border-white/10 bg-white/[0.05] px-1.5 py-0.5 font-mono text-[10px] text-neutral-400">22</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://tokenforge.ai.studio/sign-up?aff=qvmv"
+                class="group flex items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-[13.5px] font-medium text-neutral-400 transition hover:bg-white/[0.05] hover:text-white"
+              >
+                Models &amp; credit rates
+                <span class="rounded border border-white/10 bg-white/[0.05] px-1.5 py-0.5 font-mono text-[10px] text-neutral-400">26</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://tokenforge.ai.studio/sign-up?aff=qvmv"
+                class="group flex items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-[13.5px] font-medium text-neutral-400 transition hover:bg-white/[0.05] hover:text-white"
+              >
+                Request admission
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://tokenforge.ai.studio/sign-up?aff=qvmv"
+                class="group flex items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-[13.5px] font-medium text-neutral-400 transition hover:bg-white/[0.05] hover:text-white"
+              >
+                Errors
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="border-t border-white/[0.06] p-3">
+          <a
+            href="https://tokenforge.ai.studio/sign-up?aff=qvmv"
+            class="block rounded-xl border border-neon-line/60 bg-neon-soft p-3.5 transition hover:border-neon"
+          >
+            <p class="text-[13px] font-semibold text-white">Start your setup</p>
+            <p class="mt-1 text-[12px] leading-5 text-neutral-400">
+              Create a free key and send your first traced request.
+            </p>
+            <span
+              class="mt-2.5 inline-flex items-center gap-1 text-[12.5px] font-semibold text-neon"
+              >Create a free key →</span
+            >
+          </a>
+          <div class="mt-2.5 flex justify-center">
+            <span class="pill border-neon-line bg-neon-soft !text-neon">
+              <span class="h-1.5 w-1.5 rounded-full bg-neon"></span>
+              Gateway ready
+            </span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ================= Main column ================= -->
+      <div class="flex min-w-0 flex-1 flex-col">
+        <!-- Mobile brand bar -->
+        <div
+          class="flex items-center justify-between border-b border-white/[0.06] bg-ink-900 px-4 py-3 lg:hidden"
+        >
+          <a href="https://tokenforge.ai.studio/sign-up?aff=qvmv" class="flex items-center gap-2.5">
+            <span class="logo-tile h-8 w-8"><span class="logo-orb"></span></span>
+            <span class="leading-none">
+              <span class="block text-[14px] font-bold tracking-tight text-white"
+                >Token<span class="text-neon">Forge</span></span
+              >
+              <span
+                class="mt-0.5 block font-mono text-[8.5px] font-semibold uppercase tracking-[0.24em] text-neon/80"
+                >Developer Gateway</span
+              >
+            </span>
+          </a>
+          <a
+            href="https://tokenforge.ai.studio/sign-up?aff=qvmv"
+            class="btn-neon !px-3 !py-2 !text-[12px]"
+            >Sign up</a
+          >
+        </div>
+
+        <!-- ================= Topbar ================= -->
+        <header
+          class="sticky top-0 z-30 border-b border-white/[0.06] bg-ink-950/85 backdrop-blur-xl"
+        >
+          <div
+            class="flex h-16 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8"
+          >
+            <nav aria-label="Breadcrumb" class="min-w-0">
+              <ol class="flex items-center gap-2 truncate font-mono text-[12.5px]">
+                <li>
+                  <a
+                    href="https://tokenforge.ai.studio/sign-up?aff=qvmv"
+                    class="text-neutral-500 transition hover:text-neon"
+                    >TokenForge</a
+                  >
+                </li>
+                <li aria-hidden="true" class="text-neutral-700">/</li>
+                <li class="truncate font-semibold text-neutral-200">Developer reference</li>
+              </ol>
+            </nav>
+
+            <div class="flex shrink-0 items-center gap-2 sm:gap-3">
+              <span class="pill hidden border-neon-line bg-neon-soft !text-neon sm:inline-flex"
+                >Free Tier EXPLORER</span
+              >
+              <span class="pill hidden !border-neon-line/70 !bg-transparent md:inline-flex">
+                <span class="relative flex h-2 w-2">
+                  <span
+                    class="absolute inline-flex h-full w-full animate-ping rounded-full bg-neon opacity-60"
+                  ></span>
+                  <span class="relative inline-flex h-2 w-2 rounded-full bg-neon"></span>
+                </span>
+                <span class="text-neon">Gateway ready</span>
+              </span>
+              <a
+                href="https://tokenforge.ai.studio/sign-up?aff=qvmv"
+                class="btn-neon !px-3.5 !py-2"
+                >Sign up free</a
+              >
+            </div>
+          </div>
+        </header>
+
+        <!-- ================= Docs content ================= -->
+        <main class="flex-1">
+          <div class="mx-auto w-full max-w-[1000px] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+            <div
+              class="animate-fade-up mb-8 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-neon-line/50 bg-neon-soft px-5 py-4"
+            >
+              <div>
+                <p class="label-xs !text-neon/70">Setup documentation</p>
+                <p class="mt-1 text-[14px] text-neutral-300">
+                  Everything below maps to the hosted gateway at
+                  <span class="font-mono text-white">https://tokenforge.ai.studio</span>
+                </p>
+              </div>
+              <a href="https://tokenforge.ai.studio/sign-up?aff=qvmv" class="btn-neon shrink-0"
+                >Create a free key →</a
+              >
+            </div>
+
+            <article class="docs-prose animate-fade-up">
+              <h1>Developer reference</h1>
+              <p class="lead">
+                <strong>Designed to disappear into your existing stack.</strong> TokenForge
+                provides a dedicated Anthropic-compatible Messages API
+                (<code>POST /v1/messages</code>), precise error responses, and transparent credit
+                settlement so you spend less time adapting infrastructure.
+              </p>
+
+              <h2 id="setup-plan">Setup plan</h2>
+              <p>
+                Four steps from a blank account to a traced, production request against the
+                hosted gateway.
+              </p>
+              <div class="plan-grid">
+                <div class="plan-step">
+                  <span class="font-mono text-[11px] font-semibold text-neon">01</span>
+                  <p class="mt-2 text-[14.5px] font-semibold text-white">Create a scoped key</p>
+                  <p class="mt-1 text-[13px] leading-6 text-neutral-400">
+                    Mint a <code>tf_live_</code> key. The secret is shown once; afterwards only a
+                    non-reversible hash is retained.
+                  </p>
+                </div>
+                <div class="plan-step">
+                  <span class="font-mono text-[11px] font-semibold text-neon">02</span>
+                  <p class="mt-2 text-[14.5px] font-semibold text-white">Pick an enabled model</p>
+                  <p class="mt-1 text-[13px] leading-6 text-neutral-400">
+                    Start with one of the 22 Messages-supported routes enabled in the live
+                    TokenForge catalogue.
+                  </p>
+                </div>
+                <div class="plan-step">
+                  <span class="font-mono text-[11px] font-semibold text-neon">03</span>
+                  <p class="mt-2 text-[14.5px] font-semibold text-white">Send the first message</p>
+                  <p class="mt-1 text-[13px] leading-6 text-neutral-400">
+                    Point any Anthropic SDK, Claude Code, or HTTP client at
+                    <code>https://tokenforge.ai.studio</code> and call
+                    <code>POST /v1/messages</code>.
+                  </p>
+                </div>
+                <div class="plan-step">
+                  <span class="font-mono text-[11px] font-semibold text-neon">04</span>
+                  <p class="mt-2 text-[14.5px] font-semibold text-white">Trace every response</p>
+                  <p class="mt-1 text-[13px] leading-6 text-neutral-400">
+                    Follow each call with <code>x-request-id</code> and the stable JSON error
+                    types — no silent model substitution.
+                  </p>
+                </div>
+              </div>
+
+              <h2 id="overview">Overview</h2>
+              <p>
+                The public API is versioned under <code>/v1</code>. Connect using any Anthropic
+                SDK, Claude Code, or HTTP client with
+                <code>https://tokenforge.ai.studio</code> as the hosted base URL. Every response
+                includes a <code>x-request-id</code> header so a request can be traced without
+                retaining your prompt content in product analytics.
+              </p>
+
+              <h2 id="authentication">Authentication</h2>
+              <p>
+                Pass your TokenForge key via the standard <code>x-api-key</code> or
+                <code>Authorization: Bearer</code> header. The full secret appears once at
+                creation. After that, only a non-reversible hash is retained.
+              </p>
+              <pre><code>x-api-key: tf_live_your_key
+anthropic-version: 2023-06-01</code></pre>
+
+              <h2 id="messages-api">Messages API</h2>
+              <p>
+                <code>POST /v1/messages</code> accepts standard Anthropic messages and returns
+                the standard Anthropic message envelope. Set <code>stream: true</code> to
+                receive server-sent events.
+              </p>
+              <div class="code-panel" data-code-block>
+                <div class="code-head">
+                  <span>cURL</span>
+                  <a
+                    href="https://tokenforge.ai.studio/sign-up?aff=qvmv"
+                    data-copy
+                    class="copy-btn"
+                    >Copy</a
+                  >
+                </div>
+                <pre><code>curl https://tokenforge.ai.studio/v1/messages \
+  -H "x-api-key: tf_live_your_key" \
+  -H "anthropic-version: 2023-06-01" \
+  -H "content-type: application/json" \
+  -d '{
+    "model": "glm-5.3",
+    "max_tokens": 1024,
+    "messages": [{
+      "role": "user",
+      "content": "Explain vector search in three lines."
+    }]
+  }'</code></pre>
+              </div>
+
+              <h2 id="claude-code">Claude Code compatibility</h2>
+              <p>
+                TokenForge fully supports Anthropic-style <code>POST /v1/messages</code>
+                requests for text and tool workflows from Claude Code. This endpoint accepts
+                your TokenForge key through <code>x-api-key</code> or
+                <code>Bearer</code> authentication and applies the same credit, model-control,
+                and usage-log protections.
+              </p>
+              <p>
+                Claude Opus 5, Claude Fable 5.1, Qwen3.8 27B, Qwen 3.8 Max, GLM-5.3, and more
+                use TokenForge&rsquo;s server-side Messages gateway, preserving compatible text
+                and tool workflows while retaining protected gateway controls. The bridge
+                accepts Claude Code thinking-history blocks without forwarding private reasoning
+                as ordinary prompt text. Image and document blocks are not supported.
+              </p>
+              <h3>Claude Code shell configuration</h3>
+              <pre><code>export ANTHROPIC_BASE_URL="https://tokenforge.ai.studio"
+export ANTHROPIC_AUTH_TOKEN="tf_live_your_key"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="kimi-k3"
+export ANTHROPIC_DEFAULT_SONNET_MODEL="kimi-k3"
+export ANTHROPIC_DEFAULT_HAIKU_MODEL="kimi-k3"
+claude</code></pre>
+
+              <h2 id="messages-models">Messages-supported models</h2>
+              <p>
+                <code>POST /v1/messages</code> supports the 22 model routes listed below. Each
+                must also be enabled in the live TokenForge catalogue; paused models return a
+                clear availability error rather than silently falling back. Other models are not
+                accepted on this endpoint.
+              </p>
+              <div class="mb-6">
+                <span class="chip">glm-5.3</span><span class="chip">glm-5.2</span
+                ><span class="chip">claude-opus-5</span><span class="chip">qwen3.8-27b</span
+                ><span class="chip">qwen3.8-max</span><span class="chip">claude-fable-5.1</span
+                ><span class="chip">glm-5.1</span><span class="chip">claude-haiku-4.5</span
+                ><span class="chip">claude-opus-4.5</span><span class="chip">claude-opus-4.6</span
+                ><span class="chip">claude-opus-4.7</span
+                ><span class="chip">claude-sonnet-4.5</span
+                ><span class="chip">claude-sonnet-4.6</span><span class="chip">gpt-5</span
+                ><span class="chip">gpt-5-mini</span><span class="chip">gpt-5-nano</span
+                ><span class="chip">gpt-5.4</span><span class="chip">gpt-5.5</span
+                ><span class="chip">kimi-k3</span><span class="chip">minimax-m2</span
+                ><span class="chip">minimax-m2-7</span><span class="chip">qwen3.7-max</span>
+              </div>
+
+              <h2 id="credit-rates">Models &amp; credit rates</h2>
+              <p>
+                Use <code>GET /v1/models</code> to discover models currently enabled for the
+                gateway. TokenForge currently exposes 26 verified text-chat routes. Model pages
+                show the final TokenForge credit rate, including the 3.5 TokenForge platform
+                charge. Image, audio, embedding, transcription, and modality-specific routes
+                remain excluded.
+              </p>
+              <div class="mb-6">
+                <span class="chip">gpt-6-astra</span><span class="chip">glm-5.3</span
+                ><span class="chip">glm-5.2</span><span class="chip">grok-4.5</span
+                ><span class="chip">deepseek-v4-flash</span
+                ><span class="chip">deepseek-v4-pro</span
+                ><span class="chip">claude-opus-5</span><span class="chip">qwen3.8-27b</span
+                ><span class="chip">qwen3.8-max</span><span class="chip">claude-fable-5.1</span
+                ><span class="chip">glm-5.1</span><span class="chip">claude-haiku-4.5</span
+                ><span class="chip">claude-opus-4.5</span><span class="chip">claude-opus-4.6</span
+                ><span class="chip">claude-opus-4.7</span
+                ><span class="chip">claude-sonnet-4.5</span
+                ><span class="chip">claude-sonnet-4.6</span><span class="chip">gpt-5</span
+                ><span class="chip">gpt-5-mini</span><span class="chip">gpt-5-nano</span
+                ><span class="chip">gpt-5.4</span><span class="chip">gpt-5.5</span
+                ><span class="chip">kimi-k3</span><span class="chip">minimax-m2</span
+                ><span class="chip">minimax-m2-7</span><span class="chip">qwen3.7-max</span>
+              </div>
+              <p>
+                Credits are reserved from the maximum requested output allowance before
+                execution, then settled from reported input and output tokens only after a
+                successful request. Failed or cancelled requests release their reservation and
+                receive no usage debit. See the model catalogue for final TokenForge credit
+                rates and model details.
+              </p>
+
+              <h2 id="request-admission">Request admission</h2>
+              <p>
+                TokenForge does not impose daily request, daily token, per-minute, or
+                concurrent-request admission limits. You may make simultaneous API and
+                Playground requests while your account is active. Model availability, platform
+                maintenance, upstream-provider behavior, and your promotional-credit balance can
+                still affect whether a request is accepted.
+              </p>
+
+              <h2 id="errors">Errors</h2>
+              <p>
+                Responses use stable JSON error types and include an <code>x-request-id</code>
+                for tracing. TokenForge does not emit platform rate-limit headers or reject
+                calls because of platform request-rate, daily quota, or concurrency caps.
+              </p>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>HTTP</th>
+                    <th>Meaning</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="font-mono !text-neon">invalid_api_key</td>
+                    <td class="font-mono">401</td>
+                    <td>The supplied TokenForge key is missing, invalid, or revoked.</td>
+                  </tr>
+                  <tr>
+                    <td class="font-mono !text-neon">model_not_found</td>
+                    <td class="font-mono">404</td>
+                    <td>The requested model is not in the active TokenForge catalogue.</td>
+                  </tr>
+                  <tr>
+                    <td class="font-mono !text-neon">model_unavailable</td>
+                    <td class="font-mono">503</td>
+                    <td>
+                      The selected route is disabled or overloaded. Choose an available model
+                      and retry.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="font-mono !text-neon">insufficient_credits</td>
+                    <td class="font-mono">402</td>
+                    <td>
+                      Your promotional credit balance cannot cover the maximum estimated request
+                      cost.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="font-mono !text-neon">provider_unavailable</td>
+                    <td class="font-mono">503</td>
+                    <td>
+                      The selected model is temporarily unavailable. No silent model
+                      substitution occurs.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="mt-14 rounded-xl border border-white/[0.08] bg-ink-800 p-6">
+                <p class="mb-1 text-[15px] font-semibold text-white">
+                  Ready to route your first request?
+                </p>
+                <p class="mb-5 text-[14px] text-neutral-400">
+                  Create a scoped key, keep your balance topped up, and ship the connection.
+                </p>
+                <a href="https://tokenforge.ai.studio/sign-up?aff=qvmv" class="btn-neon"
+                  >Sign up free →</a
+                >
+              </div>
+            </article>
+          </div>
+        </main>
+
+        <!-- ================= Footer ================= -->
+        <footer class="border-t border-white/[0.06] px-4 py-6 sm:px-6 lg:px-8">
+          <div
+            class="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center"
+          >
+            <p class="font-mono text-[11px] text-neutral-600">
+              © <span id="year">2026</span> TokenForge · POST /v1/messages · x-request-id traced
+            </p>
+            <div class="flex items-center gap-4">
+              <a
+                href="https://tokenforge.ai.studio/sign-up?aff=qvmv"
+                class="font-mono text-[11px] text-neutral-500 transition hover:text-neon"
+                >Developer reference</a
+              >
+              <a
+                href="https://tokenforge.ai.studio/sign-up?aff=qvmv"
+                class="font-mono text-[11px] text-neutral-500 transition hover:text-neon"
+                >Create an account</a
+              >
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var y = document.getElementById("year");
+        if (y) y.textContent = String(new Date().getFullYear());
+
+        /* Copy-to-clipboard — anchors keep the required href, JS intercepts */
+        document.querySelectorAll("[data-copy]").forEach(function (btn) {
+          btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            var block = btn.closest("[data-code-block]");
+            var code = block && block.querySelector("code");
+            if (!code) return;
+            var text = code.innerText;
+            var original = btn.textContent;
+            var done = function () {
+              btn.textContent = "✓ copied";
+              setTimeout(function () {
+                btn.textContent = original;
+              }, 1600);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(text).then(done, function () {});
+            } else {
+              var ta = document.createElement("textarea");
+              ta.value = text;
+              document.body.appendChild(ta);
+              ta.select();
+              try {
+                document.execCommand("copy");
+                done();
+              } catch (err) {}
+              document.body.removeChild(ta);
+            }
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
